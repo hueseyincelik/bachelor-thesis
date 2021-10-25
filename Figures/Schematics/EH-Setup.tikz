@@ -1,0 +1,71 @@
+\begin{tikzpicture}
+	\contourlength{1.5pt}
+
+	\def\centerarc[#1](#2)(#3:#4:#5)[#6][#7]
+    {\draw[#1] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5) node[align=center][#6]{\contour{white}{#7}};}
+
+	\node[rectangle,fill=black!50,draw=black,minimum height=0.75cm,minimum width=0.5cm] (R1) at (0,0) {};
+	\node[isosceles triangle,anchor=apex,isosceles triangle apex angle=90,draw=none,rotate=90,fill=black!10,minimum width=3cm] (T1) at (R1.south) {};
+	\node[rectangle,fill=black!10,draw=none,minimum height=3cm, minimum width=3cm,anchor=north west] (R2) at (T1.left corner) {};
+	\filldraw[fill=black!40,draw=none] (R2.south west) -- (R2.south) -- ++(0,-1.5) -- cycle;
+	\filldraw[fill=black!10,draw=none] (R2.south east) -- (R2.south) -- ++(0,-1.5) -- cycle;
+	\filldraw[fill=black!30,draw=none] (R2.south west) rectangle (R2.center) node [midway] {${\psi}_{obj}\left(\vb{r}\right)$};
+	\filldraw[fill=black!10,draw=none] (R2.center) rectangle (R2.north east) node [midway] {${\psi}_{ref}\left(\vb{r}\right)$};
+	\node[rectangle,fill=black!50,draw=black,minimum height=0.2cm,minimum width=1.5cm,ultra thick,anchor=west] (O1) at (R2.west) {};
+	\filldraw[fill=black!10,draw=none] ($ (R2.south) + (0,-1.5) $) -- ++(-1,-0.75) -- ++(-0.5,-1.5) -- cycle;
+	\filldraw[fill=black!40,draw=none] ($ (R2.south) + (0,-1.5) $) -- ++(1,-0.75) -- ++(0.5,-1.5) -- cycle;
+	\filldraw[fill=black!30,draw=none] ($ (R2.south) + (0,-1.5) $) -- ++(-1.5,-2.25) -- ++(3,0) -- cycle;
+	\draw[dashdotted] (R1.south) -- ($ (R2.south) + (0,-3.75) $);
+	\node[ellipse,fill=black!20,draw=black,minimum height=0.2cm,minimum width=3.5cm,inner sep=0] (E1) at (T1.lower side) {};
+	\node[ellipse,fill=black!20,draw=black,minimum height=0.4cm,minimum width=4cm,inner sep=0] (E2) at (R2.south) {};
+	\filldraw[fill=black!10,draw=black] ($ (R2.south) + (0,-2.25) $) circle (3pt);
+	\node[rectangle,fill=black!50,draw=black,minimum width=0.2cm, minimum height=1cm] (B1) at ($ (R2.south) + (-1.5,-2.25) $) {};
+	\node[rectangle,fill=black!50,draw=black,minimum width=0.2cm, minimum height=1cm] (B2) at ($ (R2.south) + (1.5,-2.25) $) {};
+	\draw ($ (R2.south) + (-2.5,-3.75) $) -- ++(5,0);
+	\node[inner sep=0,align=center,anchor=east] (l1) at ($ (R2.south) + (-2.75,-3.75) $) {Detector};
+	\node[inner sep=0,align=center,anchor=east] (l2) at ($ (B1.west) + (-1,0) $) {Biprism};
+	\node[inner sep=0,align=center,anchor=east] (l3) at ($ (R2.south) + (-2,-1) $) {Back Focal\\Plane};
+	\node[inner sep=0,align=center,anchor=east] (l4) at ($ (E2.west) + (-1,0) $) {Objective};
+	\node[inner sep=0,align=center,anchor=east] (l5) at ($ (E1.west) + (-1,0) $) {Condenser};
+	\node[inner sep=0,align=center,anchor=east] (l6) at ($ (O1.west) + (-1,0) $) {Object};
+	\node[inner sep=0,align=center,anchor=east] (l7) at ($ (R1.west) + (-1,0) $) {Electron\\Source};
+	\draw[bend right=30] (l3.east) to ($ (R2.south) + (0,-1.5) $);
+	\draw (l2.east) to (B1.west);
+	\draw (l4.east) to (E2.west);
+	\draw (l5.east) to (E1.west);
+	\draw (l6.east) to (O1.west);
+	\draw (l7.east) to (R1.west);
+	\node[rectangle,fill=black!50,draw=black,minimum width=0.3cm,minimum height=1.5cm] (B3) at (4,-3) {};
+	\node[fill=black!50,draw=black,minimum width=0.3cm,minimum height=1.5cm] (B4) at (8,-3) {};
+	\draw[ultra thick] (B3.west) -- ++(-0.5,0) -- ++(0,-0.65);
+	\draw[ultra thick] ($ (B3.west) + (-0.85,-0.65) $) -- ++(0.7,0);
+	\draw[ultra thick] ($ (B3.west) + (-0.75,-0.75) $) -- ++(0.5,0);
+	\draw[ultra thick] ($ (B3.west) + (-0.65,-0.85) $) -- ++(0.3,0);
+	\draw[ultra thick] (B4.east) -- ++(0.5,0) -- ++(0,-0.65);
+	\draw[ultra thick] ($ (B4.east) + (0.85,-0.65) $) -- ++(-0.7,0);
+	\draw[ultra thick] ($ (B4.east) + (0.75,-0.75) $) -- ++(-0.5,0);
+	\draw[ultra thick] ($ (B4.east) + (0.65,-0.85) $) -- ++(-0.3,0);
+	\draw[dotted] ($ (B3.east) + (0,2) $) -- ($ (B4.west) + (0,2) $);
+	\draw ($ (B3.east) + (0,-3) $) -- ($ (B4.west) + (0,-3) $);
+	\draw[dashdotted] ($ (B3.center) + (2,2) $) -- ($ (B3.center) + (2,-3) $);
+	\draw[dotted] (B3.east) -- (B4.west);
+	\node[circle,fill=black!30,draw=black,align=center,minimum size=5pt] (C2) at ($ (B3.center) + (2,0) $) {\textbf{+}};
+	\draw[ultra thick,dashed] ($ (B3.center) + (2,-3) $) -- ++(70:{3/sin(70)+1.2});
+	\draw[ultra thick,dashed] ($ (B3.center) + (2,-3) $) -- ++(110:{3/sin(110)+1.2});
+	\draw[ultra thick,<-,>=stealth] ($ (B3.center) + (2,-3) $) -- ++(70:{3/sin(70)});
+	\draw[ultra thick,<-,>=stealth] ($ (B3.center) + (2,-3) $) -- ++(110:{3/sin(110)});
+	\draw[ultra thick,->,>=stealth] ($ (B3.center) + (2,2) $) -- ++(-60:{2/sin(60)});
+	\draw[ultra thick,->,>=stealth] ($ (B3.center) + (2,2) $) -- ++(-120:{2/sin(120)});
+	\centerarc[]($ (B3.center) + (2,-3) $)(70:110:1)[midway,below][$\beta$]
+	\centerarc[]($ (B3.center) + (2,2) $)(-60:-120:0.8)[midway,above][$\alpha$]
+	\centerarc[]($ (B4.center) + (-1,0) $)(65:110:0.8)[midway,below][$\gamma$]
+	\draw[<->,>=stealth] ($ (B3.east) + (0.2,2) $) -- node[left] {$a$} ($ (B3.east) + (0.2,0) $);
+	\draw[<->,>=stealth] ($ (B3.east) + (0.2,0) $) -- node[left] {$b$} ($ (B3.east) + (0.2,-3) $);
+	\node[inner sep=0,align=center,anchor=west] (l1) at ($ (B4.center) + (0,2) $) {Back Focal\\Plane};
+	\node[inner sep=0,align=center,anchor=west] (l2) at ($ (B4.center) + (0,-3) $) {Detector};
+	\node[inner sep=0,align=center,anchor=west] (l3) at ($ (B3.center) + (4,-4) $) {Hologram};
+	\draw[->,>=stealth] ($ (B3.east) + (0,-4.5) $) -- ($ (B4.west) + (0,-4.5) $) node[right] {$x$};
+	\draw[->,>=stealth]  ($ (B3.east) + (0,-4.5) $) -- ++(0,1) node[left] {$I_{hol}$};
+	\tikzset{shift={(4.23,-7)}}
+	\draw[domain=0:9/8*pi,samples=500,smooth,very thick] plot (\x, {sin(8*\x r)*0.4});
+\end{tikzpicture}

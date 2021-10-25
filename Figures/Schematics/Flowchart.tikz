@@ -1,0 +1,30 @@
+\begin{tikzpicture}
+	\tikzstyle{startstop} = [rectangle,rounded corners,minimum width=3cm,minimum height=1cm,text centered,draw=none,fill=blue!30,align=center]
+	\tikzstyle{error} = [ellipse,minimum width=3cm,minimum height=1cm,text centered,draw=none,fill=red!30,align=center]
+	\tikzstyle{process} = [rectangle,minimum width=3cm,minimum height=1cm,text centered,draw=none,fill=orange!30,align=center]
+	\tikzstyle{decision} = [trapezium,trapezium left angle=70,trapezium right angle=110,minimum width=3cm,minimum height=1cm,text centered,draw=none,fill=green!30,align=center]
+
+	\matrix[matrix of nodes, nodes in empty cells, column sep=0.6cm, row sep=1cm, anchor=center, nodes={anchor=center}]{
+	\node (start) [startstop] {Input Data}; &
+	\node (split) [process] {Split Data}; &
+	\node (length) [decision] {Intervals \\ Equally Sized?}; &
+	\node (average) [process] {Average \\ Intervals};\\
+	& & \node (warning) [error] {Output \\ Warning}; & \\
+	\node (average-dev) [startstop] {Normalize Average \\ Deviation}; &
+	\node (calc-dev) [process] {Calculate Single \\ Deviations}; &
+	\node (spline-data) [process] {Input Data \\ into Spline}; &
+	\node (spline) [process] {Construct \\ Cubic Spline};\\};
+	\draw [thick,->,>=stealth] (start) -- (split);
+	\draw [thick,->,>=stealth] (split) -- (length);
+	\draw [thick,->,>=stealth] (length) -- node[left] {\textsc{no}} (warning);
+	\draw [thick,->,>=stealth] (length) -- node[below] {\textsc{yes}} (average);
+	\draw [thick,->,>=stealth] (warning) -- (average);
+	\draw [thick,->,>=stealth] (average) -- (spline);
+	\draw [thick,->,>=stealth] (spline) -- (spline-data);
+	\draw [thick,->,>=stealth] (spline-data) -- (calc-dev);
+	\draw [thick,->,>=stealth] (calc-dev) -- (average-dev);
+	\draw [ultra thick, draw=cyan, fill=white, fill opacity=0, rounded corners] (-7.8,-1.2) rectangle (7.8,3.2);
+	\draw [ultra thick, draw=magenta, fill=white, fill opacity=0, rounded corners] (-7.8,-3.2) rectangle (7.8,-1.4);
+	\node [text=cyan] (l1) at (0,3.5) {\textbf{Temporal Discretization}};
+	\node [text=magenta] (l2) at (0,-3.5) {\textbf{Deviation Evaluation}};
+\end{tikzpicture}
