@@ -1,0 +1,32 @@
+\section{Source Code}
+The following implementation uses the \textsc{python} programming language to split the input signal into equally sized and spaced intervals:
+\begin{minted}[xleftmargin=\svtheparindent\relax,linenos,breaklines,frame=single,fontsize=\footnotesize]{python}
+from scipy.interpolate import CubicSpline
+from more_itertools import windowed
+from tqdm.contrib import tzip
+import numpy as np
+
+def split(data_x, data_y, interval_size, step_size, period_length, pp_amplitude, iterate=False):
+	x_split = [[x for x in val if x is not None] for val in list(windowed(data_x, interval_size, step=step_size))]
+	y_split = [[y for y in val if y is not None] for val in list(windowed(data_y, interval_size, step=step_size))]
+
+	if len(x_split[-1]) < len(x_split[0]) and not iterate:
+		print(f'Warning! Chosen interval size of {interval_size} and step size of {step_size} result in last interval being smaller than the rest.')
+
+	result = np.vstack([np.array([np.average(val_x), np.average(val_y)]) for (val_x, val_y) in zip(x_split, y_split)])
+
+	spline = CubicSpline(result[:,0], result[:,1])
+	spline_dev = [np.abs(val_data - val_spline) for (val_data, val_spline) in zip(data_y[period_length:period_length*2], spline(data_x[period_length:period_length*2]))]
+
+	return x_split, y_split, result, spline, spline(data_x), np.mean(spline_dev)/pp_amplitude
+
+def find_best(data_x, data_y, interval_start, interval_stop, interval_step, step_start, step_stop, step_step, period_length, pp_amplitude):
+	combinations = np.zeros(((step_stop - step_start)//step_step + 1, (interval_stop - interval_start)//interval_step + 1))
+
+	for i, a in tzip(range(step_start, step_stop + 1, step_step), range(step_stop - step_start + 1), desc='Steps'):
+		for j, b in tzip(range(interval_start, interval_stop + 1, interval_step), range(interval_stop - interval_start + 1), desc='Intervals', leave=False):
+			combinations[a,b] = split(data_x, data_y, j, i, period_length, pp_amplitude, iterate=True)[5]
+
+	return combinations
+\end{minted}
+The function \mintinline{python}{def split()} discretizes the input signal and evaluates the deviation between the interpolated time-discrete signal and the input signal according to the self-developed method described in \cref{sec:implementation}, whereas the function \mintinline{python}{def find_best()} calculates the $m$ different deviations $\overline{d}_{pp}$ for given intervals of gate length $\tau$ and sampling resolution $t_0$ using the above described function.
