@@ -1,0 +1,98 @@
+% Document For Use With LuaLaTeX
+\documentclass[a4paper,11pt]{article}
+
+% Define Thesis Information
+\newcommand{\thesistitle}{Temporal Discretization Based Deviations in Time-Resolved Electron Holography}
+\newcommand{\thesisauthor}{Hüseyin Çelik}
+\newcommand{\submissiondate}{25\textsuperscript{th} October 2021}
+
+% Fonts and Typography
+\usepackage[ngerman,english]{babel}
+\usepackage{fontspec,microtype}
+
+% Math and Science
+\usepackage[locale=US,per-mode=fraction,separate-uncertainty,sticky-per]{siunitx}
+\usepackage[tbtags]{mathtools}
+\usepackage{amssymb,physics,interval}
+
+% Bibliography
+\usepackage[style=numeric-comp,sorting=none,giveninits=true,doi=false]{biblatex}
+\usepackage[nottoc]{tocbibind}
+\usepackage{csquotes}
+
+% Layout
+\edef\svtheparindent{\the\parindent}
+\usepackage[all]{nowidow}
+\usepackage{parskip}
+
+% Visuals and Graphics
+\usepackage[dvipsnames]{xcolor}
+\usepackage{contour,cancel}
+
+% Figures and Captions
+\usepackage{graphicx,caption,subcaption,tikz}
+
+% Source Code
+\usepackage[cache=false]{minted}
+
+% Links
+\usepackage[hidelinks,pdfauthor={\thesisauthor},pdftitle={\thesistitle}]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+% Load After Hyperref
+\usepackage[margin=1in]{geometry}
+\usepackage{float}
+
+% Enable French Spacing
+\frenchspacing
+
+% Add Bibliography File
+\addbibresource{References.bib}
+
+% Caption Style
+\captionsetup{font=footnotesize,labelfont={bf},belowskip=-11pt}
+
+% Change Source Code Theme
+\usemintedstyle{pastie}
+\AtBeginEnvironment{minted}{\renewcommand{\colorbox}[3][]{#3}}
+
+% Add TikZ Libraries
+\usetikzlibrary{arrows.meta,matrix,decorations.pathreplacing,shapes.geometric,calc,fit}
+
+\begin{document}
+
+\pagenumbering{Alph}
+\input{Chapter/0. Titlepage.tex}
+\newpage
+
+\setcounter{page}{1}
+\pagenumbering{roman}
+
+\input{Chapter/0A. Declaration of Originality.tex}
+\newpage
+\input{Chapter/0B. Abstract.tex}
+\newpage
+
+\tableofcontents
+\newpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\input{Chapter/1. Introduction.tex}
+\newpage
+\input{Chapter/2. Theoretical Foundations.tex}
+\newpage
+\input{Chapter/3. Temporal Discretization and Deviation Evaluation.tex}
+\newpage
+\input{Chapter/4. Application.tex}
+\newpage
+\input{Chapter/5. Summary and Outlook.tex}
+\newpage
+
+\printbibliography[heading=bibintoc]
+\newpage
+
+\appendix
+\input{Chapter/A. Source Code.tex}
+\end{document}
